@@ -1,0 +1,665 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>QuickServe - Plumbers</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7f6;
+      color: #1f2937;
+    }
+
+    /* NAVBAR */
+    nav {
+      height: 70px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7%;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      color: #16a34a;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #374151;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: #16a34a;
+    }
+
+    .back-btn {
+      background: #16a34a;
+      color: white !important;
+      padding: 10px 17px;
+      border-radius: 8px;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #166534, #22c55e);
+      color: white;
+      text-align: center;
+      padding: 70px 20px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: 44px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 18px;
+    }
+
+    /* MAIN */
+    .container {
+      width: 86%;
+      max-width: 1200px;
+      margin: 55px auto;
+    }
+
+    .heading {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .heading h2 {
+      font-size: 31px;
+      margin-bottom: 8px;
+    }
+
+    .heading p {
+      color: #6b7280;
+      font-size: 15px;
+    }
+
+    /* WORKER GRID */
+    .workers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    /* CARD */
+    .worker-card {
+      background: #ffffff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 5px 22px rgba(0, 0, 0, 0.08);
+      transition: 0.3s ease;
+    }
+
+    .worker-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
+    }
+
+    /* IMAGE */
+    .image-box {
+      width: 100%;
+      height: 245px;
+      position: relative;
+      overflow: hidden;
+      background: #e5e7eb;
+    }
+
+    .worker-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .status {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #dcfce7;
+      color: #15803d;
+      padding: 6px 11px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    /* CONTENT */
+    .worker-content {
+      padding: 21px;
+    }
+
+    .worker-name {
+      font-size: 21px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .verified {
+      display: inline-block;
+      background: #f0fdf4;
+      color: #15803d;
+      padding: 5px 9px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .rating {
+      color: #f59e0b;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .rating span {
+      color: #374151;
+      margin-left: 5px;
+    }
+
+    .details {
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.9;
+      margin-bottom: 18px;
+    }
+
+    .book-btn {
+      width: 100%;
+      border: none;
+      background: #16a34a;
+      color: white;
+      padding: 13px;
+      border-radius: 9px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .book-btn:hover {
+      background: #15803d;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 32px 20px;
+      margin-top: 70px;
+    }
+
+    footer h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    footer p {
+      color: #9ca3af;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    /* TABLET */
+    @media (max-width: 950px) {
+      .workers-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* MOBILE */
+    @media (max-width: 650px) {
+
+      nav {
+        padding: 0 5%;
+      }
+
+      .nav-links a:not(.back-btn) {
+        display: none;
+      }
+
+      .hero {
+        padding: 60px 20px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .container {
+        width: 92%;
+      }
+
+      .workers-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+
+    <div class="logo">
+      QuickServe
+    </div>
+
+    <div class="nav-links">
+
+      <a href="index.html">Home</a>
+
+      <a href="plumber.html">Plumber Services</a>
+
+      <a href="index.html#services">Services</a>
+
+      <a href="index.html" class="back-btn">
+        Back Home
+      </a>
+
+    </div>
+
+  </nav>
+
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="hero-badge">
+      🔧 Trusted Plumbing Professionals
+    </div>
+
+    <h1>
+      Professional Plumbers
+    </h1>
+
+    <p>
+      Find skilled plumbers for reliable plumbing services
+    </p>
+
+  </section>
+
+
+  <!-- MAIN -->
+  <main class="container">
+
+    <div class="heading">
+
+      <h2>
+        Available Plumbers
+      </h2>
+
+      <p>
+        Choose a professional plumber and book your service
+      </p>
+
+    </div>
+
+
+    <div class="workers-grid">
+
+
+      <!-- WORKER 1 -->
+      <div class="worker-card">
+
+        <div class="image-box">
+
+          <img
+            src="https://images.pexels.com/photos/32588548/pexels-photo-32588548.jpeg?auto=compress&cs=tinysrgb&w=900"
+            class="worker-image"
+            alt="Plumber repairing pipe with wrench">
+
+          <div class="status">
+            ● Available
+          </div>
+
+        </div>
+
+        <div class="worker-content">
+
+          <div class="worker-name">
+            Rajesh Kumar
+          </div>
+
+          <div class="verified">
+            ✓ Verified Plumber
+          </div>
+
+          <div class="rating">
+            ★★★★★ <span>4.9</span>
+          </div>
+
+          <div class="details">
+            🔧 8 Years Experience<br>
+            🛠️ 920+ Jobs Completed<br>
+            📍 Hyderabad
+          </div>
+
+          <button
+            class="book-btn"
+            onclick="bookWorker('Rajesh Kumar')">
+            Book Service
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- WORKER 2 -->
+      <div class="worker-card">
+
+        <div class="image-box">
+
+          <img
+            src="https://images.pexels.com/photos/16509869/pexels-photo-16509869.jpeg?auto=compress&cs=tinysrgb&w=900"
+            class="worker-image"
+            alt="Worker fixing pipes with tools">
+
+          <div class="status">
+            ● Available
+          </div>
+
+        </div>
+
+        <div class="worker-content">
+
+          <div class="worker-name">
+            Mahesh Rao
+          </div>
+
+          <div class="verified">
+            ✓ Verified Plumber
+          </div>
+
+          <div class="rating">
+            ★★★★★ <span>4.8</span>
+          </div>
+
+          <div class="details">
+            🔧 6 Years Experience<br>
+            🛠️ 710+ Jobs Completed<br>
+            📍 Secunderabad
+          </div>
+
+          <button
+            class="book-btn"
+            onclick="bookWorker('Mahesh Rao')">
+            Book Service
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- WORKER 3 -->
+      <div class="worker-card">
+
+        <div class="image-box">
+
+          <img
+            src="https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=900"
+            class="worker-image"
+            alt="Plumber installing radiator pipe">
+
+          <div class="status">
+            ● Available
+          </div>
+
+        </div>
+
+        <div class="worker-content">
+
+          <div class="worker-name">
+            Ravi Kumar
+          </div>
+
+          <div class="verified">
+            ✓ Verified Plumber
+          </div>
+
+          <div class="rating">
+            ★★★★★ <span>4.9</span>
+          </div>
+
+          <div class="details">
+            🔧 9 Years Experience<br>
+            🛠️ 1,100+ Jobs Completed<br>
+            📍 Kukatpally
+          </div>
+
+          <button
+            class="book-btn"
+            onclick="bookWorker('Ravi Kumar')">
+            Book Service
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- WORKER 4 -->
+      <div class="worker-card">
+
+        <div class="image-box">
+
+          <img
+            src="https://images.pexels.com/photos/35290675/pexels-photo-35290675.jpeg?auto=compress&cs=tinysrgb&w=900"
+            class="worker-image"
+            alt="Technician working on water pump">
+
+          <div class="status">
+            ● Available
+          </div>
+
+        </div>
+
+        <div class="worker-content">
+
+          <div class="worker-name">
+            Prakash Reddy
+          </div>
+
+          <div class="verified">
+            ✓ Verified Plumber
+          </div>
+
+          <div class="rating">
+            ★★★★★ <span>4.7</span>
+          </div>
+
+          <div class="details">
+            🔧 5 Years Experience<br>
+            🛠️ 590+ Jobs Completed<br>
+            📍 Madhapur
+          </div>
+
+          <button
+            class="book-btn"
+            onclick="bookWorker('Prakash Reddy')">
+            Book Service
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- WORKER 5 -->
+      <div class="worker-card">
+
+        <div class="image-box">
+
+          <img
+            src="https://images.pexels.com/photos/32588556/pexels-photo-32588556.jpeg?auto=compress&cs=tinysrgb&w=900"
+            class="worker-image"
+            alt="Male technician working with plumbing tools">
+
+          <div class="status">
+            ● Available
+          </div>
+
+        </div>
+
+        <div class="worker-content">
+
+          <div class="worker-name">
+            Venkat Rao
+          </div>
+
+          <div class="verified">
+            ✓ Verified Plumber
+          </div>
+
+          <div class="rating">
+            ★★★★★ <span>4.8</span>
+          </div>
+
+          <div class="details">
+            🔧 7 Years Experience<br>
+            🛠️ 760+ Jobs Completed<br>
+            📍 Gachibowli
+          </div>
+
+          <button
+            class="book-btn"
+            onclick="bookWorker('Venkat Rao')">
+            Book Service
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- WORKER 6 -->
+      <div class="worker-card">
+
+        <div class="image-box">
+
+          <img
+            src="https://images.pexels.com/photos/34938441/pexels-photo-34938441.jpeg?auto=compress&cs=tinysrgb&w=900"
+            class="worker-image"
+            alt="Worker adjusting industrial pipes">
+
+          <div class="status">
+            ● Available
+          </div>
+
+        </div>
+
+        <div class="worker-content">
+
+          <div class="worker-name">
+            Srinivas Kumar
+          </div>
+
+          <div class="verified">
+            ✓ Verified Plumber
+          </div>
+
+          <div class="rating">
+            ★★★★★ <span>4.9</span>
+          </div>
+
+          <div class="details">
+            🔧 10 Years Experience<br>
+            🛠️ 1,250+ Jobs Completed<br>
+            📍 Banjara Hills
+          </div>
+
+          <button
+            class="book-btn"
+            onclick="bookWorker('Srinivas Kumar')">
+            Book Service
+          </button>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer>
+
+    <h3>
+      QuickServe
+    </h3>
+
+    <p>
+      Reliable services. Trusted professionals.
+    </p>
+
+    <p>
+      © 2026 QuickServe. All rights reserved.
+    </p>
+
+  </footer>
+
+
+  <!-- BOOKING SCRIPT -->
+  <script>
+
+    function bookWorker(workerName) {
+
+      window.location.href =
+        "booking.html?worker=" +
+        encodeURIComponent(workerName) +
+        "&service=Plumber";
+
+    }
+
+  </script>
+
+</body>
+</html>

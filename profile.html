@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile - QuickServe</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f5f7f6;color:#17202a}
+.navbar{background:#fff;padding:15px 6%;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:10}
+.logo{font-size:27px;font-weight:800;color:#16a34a;text-decoration:none}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.nav-actions a,.nav-actions button{border:0;text-decoration:none;padding:9px 14px;border-radius:8px;font-weight:700;cursor:pointer}
+.home-btn{color:#334155;background:#f1f5f9}.logout-btn{background:#dc2626;color:white}
+.hero{background:linear-gradient(135deg,#16a34a,#087f46);color:#fff;padding:48px 6%}
+.hero-inner{max-width:1180px;margin:auto}
+.eyebrow{opacity:.85;font-size:14px;text-transform:uppercase;letter-spacing:1px}
+.hero h1{font-size:38px;margin:8px 0}.hero p{opacity:.9}
+.container{max-width:1180px;margin:30px auto;padding:0 20px}
+.profile-top{display:grid;grid-template-columns:280px 1fr;gap:22px;margin-top:-65px}
+.card{background:#fff;border-radius:16px;box-shadow:0 5px 20px rgba(0,0,0,.07);padding:24px}
+.identity{text-align:center}
+.avatar{width:105px;height:105px;border-radius:50%;margin:0 auto 14px;background:#dcfce7;display:flex;align-items:center;justify-content:center;font-size:48px}
+.identity h2{margin-bottom:5px}.muted{color:#64748b}.badge{display:inline-block;margin-top:12px;padding:6px 12px;border-radius:20px;background:#dcfce7;color:#15803d;font-size:13px;font-weight:700}
+.details{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.detail{padding:15px;border:1px solid #e2e8f0;border-radius:12px}.detail strong{display:block;font-size:12px;color:#64748b;margin-bottom:5px;text-transform:uppercase}.detail span{font-weight:600;word-break:break-word}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:22px 0}
+.stat{background:#fff;padding:20px;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.06)}.stat .num{font-size:28px;font-weight:800;color:#15803d}.stat .label{color:#64748b;font-size:13px;margin-top:4px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:28px 0 14px}.section-head h2{font-size:24px}
+.booking{background:#fff;border-radius:14px;padding:20px;margin-bottom:13px;box-shadow:0 4px 15px rgba(0,0,0,.06);display:grid;grid-template-columns:1fr auto;gap:15px}
+.booking h3{margin-bottom:8px}.booking p{color:#64748b;margin:5px 0}.status{padding:7px 11px;border-radius:20px;font-size:12px;font-weight:800;height:max-content;background:#fef3c7;color:#92400e}.status.accepted{background:#dcfce7;color:#166534}.status.rejected{background:#fee2e2;color:#991b1b}
+.rating-box{display:flex;align-items:center;gap:18px}.rating-number{font-size:38px;font-weight:800;color:#f59e0b}.stars{color:#f59e0b;font-size:22px;letter-spacing:2px}
+.empty{padding:28px;text-align:center;color:#64748b;background:#fff;border-radius:14px}
+.review{padding:15px 0;border-bottom:1px solid #e2e8f0}.review:last-child{border-bottom:0}.review-head{display:flex;justify-content:space-between}.review-stars{color:#f59e0b}
+@media(max-width:800px){.profile-top{grid-template-columns:1fr;margin-top:-35px}.details,.stats{grid-template-columns:1fr 1fr}.booking{grid-template-columns:1fr}}
+@media(max-width:520px){.navbar{padding:12px 18px}.nav-actions a,.nav-actions button{padding:8px 9px;font-size:12px}.hero{padding:35px 20px}.hero h1{font-size:30px}.details,.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="navbar">
+<a class="logo" href="index.html">QuickServe</a>
+<div class="nav-actions">
+<a class="home-btn" href="index.html">Home</a>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div class="hero-inner">
+<div class="eyebrow" id="roleLabel">My Account</div>
+<h1 id="heroName">My Profile</h1>
+<p id="heroSubtitle">Your QuickServe account overview</p>
+</div>
+</section>
+
+<main class="container">
+<section class="profile-top">
+<div class="card identity">
+<div class="avatar" id="avatar">👤</div>
+<h2 id="name">-</h2>
+<p class="muted" id="email">-</p>
+<span class="badge" id="roleBadge">Customer</span>
+</div>
+<div class="card">
+<h2 style="margin-bottom:18px">Profile Information</h2>
+<div class="details" id="details"></div>
+</div>
+</section>
+
+<section class="stats" id="stats"></section>
+
+<section id="ratingSection" style="display:none">
+<div class="section-head"><h2>Ratings & Reviews</h2></div>
+<div class="card">
+<div class="rating-box">
+<div class="rating-number" id="ratingNumber">0.0</div>
+<div><div class="stars" id="stars">☆☆☆☆☆</div><div class="muted" id="ratingCount">No ratings yet</div></div>
+</div>
+<div id="reviews"></div>
+</div>
+</section>
+
+<section>
+<div class="section-head"><h2 id="historyTitle">Booking History</h2></div>
+<div id="bookings"></div>
+</section>
+</main>
+
+<script>
+const role = localStorage.getItem("quickserveAccountType");
+const logged = localStorage.getItem("quickserveLoggedIn") === "true";
+
+if (!logged || !role) {
+    window.location.href = "login.html";
+}
+
+const user = JSON.parse(localStorage.getItem(role === "worker" ? "quickserveWorker" : "quickserveUser") || "null");
+const bookings = JSON.parse(localStorage.getItem("quickserveBookings") || "[]");
+
+if (!user) {
+    window.location.href = "login.html";
+}
+
+const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+
+document.getElementById("heroName").textContent = role === "worker" ? `Welcome, ${user.name}` : `Welcome, ${user.fullName}`;
+document.getElementById("heroSubtitle").textContent = role === "worker" ? "Manage your professional profile, bookings and customer activity." : "Track your bookings, service history and account information.";
+document.getElementById("roleLabel").textContent = role === "worker" ? "Worker Account" : "Customer Account";
+document.getElementById("name").textContent = role === "worker" ? user.name : user.fullName;
+document.getElementById("email").textContent = user.email;
+document.getElementById("roleBadge").textContent = role === "worker" ? "Service Professional" : "Customer";
+document.getElementById("avatar").textContent = role === "worker" ? "👨‍🔧" : "👤";
+
+const details = document.getElementById("details");
+if (role === "worker") {
+    details.innerHTML = `
+      <div class="detail"><strong>Phone</strong><span>${esc(user.phone)}</span></div>
+      <div class="detail"><strong>Service</strong><span>${esc(user.service)}</span></div>
+      <div class="detail"><strong>Experience</strong><span>${esc(user.experience)}</span></div>
+      <div class="detail"><strong>Location</strong><span>${esc(user.location)}</span></div>
+      <div class="detail"><strong>Email</strong><span>${esc(user.email)}</span></div>
+      <div class="detail"><strong>Availability</strong><span>Available for bookings</span></div>`;
+} else {
+    details.innerHTML = `
+      <div class="detail"><strong>Phone</strong><span>${esc(user.phone)}</span></div>
+      <div class="detail"><strong>Email</strong><span>${esc(user.email)}</span></div>
+      <div class="detail"><strong>Account Type</strong><span>Customer</span></div>
+      <div class="detail"><strong>Member Since</strong><span>QuickServe Member</span></div>`;
+}
+
+function statusClass(status) {
+    const s=(status||"Pending").toLowerCase();
+    return s==="accepted"?"accepted":s==="rejected"?"rejected":"";
+}
+function bookingHtml(b, isWorker) {
+    const status=b.status||"Pending";
+    const other = isWorker ? `Customer: ${b.name || "N/A"}` : `Worker: ${b.worker || "N/A"}`;
+    return `<article class="booking">
+      <div>
+        <h3>${esc(b.service || "Service")}</h3>
+        <p>👤 ${esc(other)}</p>
+        <p>📅 ${esc(b.date || "N/A")} &nbsp; 🕐 ${esc(b.time || "N/A")}</p>
+        ${b.address ? `<p>📍 ${esc(b.address)}</p>` : ""}
+        ${b.details ? `<p>📝 ${esc(b.details)}</p>` : ""}
+      </div>
+      <span class="status ${statusClass(status)}">${esc(status)}</span>
+    </article>`;
+}
+
+let myBookings;
+if (role === "worker") {
+    myBookings = bookings.filter(b => (b.worker||"").trim().toLowerCase() === (user.name||"").trim().toLowerCase());
+} else {
+    myBookings = bookings.filter(b =>
+        (b.customerEmail && b.customerEmail === user.email) ||
+        (!b.customerEmail && (b.name||"").trim().toLowerCase() === (user.fullName||"").trim().toLowerCase())
+    );
+}
+
+if (role === "worker") {
+    const ratingData = JSON.parse(localStorage.getItem("quickserveRatings") || "{}");
+    const ratings = Array.isArray(ratingData[user.name]) ? ratingData[user.name] : [];
+    const avg = ratings.length ? ratings.reduce((a,r)=>a+Number(r.rating||0),0)/ratings.length : 0;
+    document.getElementById("ratingSection").style.display = "block";
+    document.getElementById("ratingNumber").textContent = avg ? avg.toFixed(1) : "0.0";
+    document.getElementById("stars").textContent = avg ? "★★★★★".slice(0,Math.round(avg)) + "☆".repeat(5-Math.round(avg)) : "☆☆☆☆☆";
+    document.getElementById("ratingCount").textContent = ratings.length ? `${ratings.length} rating${ratings.length===1?"":"s"}` : "No ratings yet";
+    document.getElementById("reviews").innerHTML = ratings.length ? ratings.map(r=>`<div class="review"><div class="review-head"><strong>${esc(r.customer || "Customer")}</strong><span class="review-stars">${"★".repeat(Number(r.rating||0))}${"☆".repeat(5-Number(r.rating||0))}</span></div><p class="muted">${esc(r.comment || "No written review.")}</p></div>`).join("") : '<p class="muted" style="margin-top:18px">Ratings and reviews will appear here after customers review your service.</p>';
+    document.getElementById("historyTitle").textContent = "Booking Requests & Previous Work";
+    document.getElementById("stats").innerHTML = `
+      <div class="stat"><div class="num">${myBookings.length}</div><div class="label">Total Bookings</div></div>
+      <div class="stat"><div class="num">${myBookings.filter(b=>(b.status||"Pending")==="Pending").length}</div><div class="label">Pending</div></div>
+      <div class="stat"><div class="num">${myBookings.filter(b=>b.status==="Accepted").length}</div><div class="label">Accepted</div></div>
+      <div class="stat"><div class="num">${avg ? avg.toFixed(1) : "—"}</div><div class="label">Average Rating</div></div>`;
+} else {
+    document.getElementById("historyTitle").textContent = "My Booking History";
+    document.getElementById("stats").innerHTML = `
+      <div class="stat"><div class="num">${myBookings.length}</div><div class="label">Total Bookings</div></div>
+      <div class="stat"><div class="num">${myBookings.filter(b=>(b.status||"Pending")==="Pending").length}</div><div class="label">Pending</div></div>
+      <div class="stat"><div class="num">${myBookings.filter(b=>b.status==="Accepted").length}</div><div class="label">Accepted</div></div>
+      <div class="stat"><div class="num">${myBookings.filter(b=>b.status==="Rejected").length}</div><div class="label">Rejected</div></div>`;
+}
+
+document.getElementById("bookings").innerHTML = myBookings.length
+    ? myBookings.slice().reverse().map(b=>bookingHtml(b, role==="worker")).join("")
+    : '<div class="empty">No booking history yet. Your completed and upcoming services will appear here.</div>';
+
+function logout(){
+    localStorage.removeItem("quickserveLoggedIn");
+    localStorage.removeItem("quickserveLoggedInUser");
+    localStorage.removeItem("quickserveAccountType");
+    window.location.href="index.html";
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gardener Services - QuickServe</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7f6;
+            color: #222;
+        }
+
+        /* Navbar */
+        nav {
+            background: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #16a34a;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            color: #16a34a;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            color: white;
+            text-align: center;
+            padding: 70px 20px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        /* Services */
+        .services {
+            padding: 55px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #666;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .service-card h3 {
+            font-size: 21px;
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .book-btn {
+            display: inline-block;
+            background: #16a34a;
+            color: white;
+            text-decoration: none;
+            padding: 11px 22px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .book-btn:hover {
+            background: #15803d;
+        }
+
+        /* Footer */
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        footer p {
+            color: #d1d5db;
+        }
+
+        /* Mobile */
+        @media (max-width: 800px) {
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            nav {
+                padding: 16px 5%;
+            }
+
+            .services {
+                padding: 40px 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">QuickServe</div>
+
+        <a href="index.html" class="back-btn">
+            ← Back to Home
+        </a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Gardener Services 🌱</h1>
+        <p>Professional gardening services at your doorstep</p>
+    </section>
+
+    <!-- Services -->
+    <section class="services">
+
+        <div class="section-title">
+            <h2>Choose a Gardening Service</h2>
+            <p>Select the service you need and book a professional gardener.</p>
+        </div>
+
+        <div class="service-grid">
+
+            <div class="service-card">
+                <div class="icon">🌿</div>
+                <h3>Garden Maintenance</h3>
+                <p>Regular care and maintenance to keep your garden healthy.</p>
+                <a href="gardener-workers.html" class="book-btn">
+                    Book Service
+                </a>
+            </div>
+
+            <div class="service-card">
+                <div class="icon">🪴</div>
+                <h3>Plant Care</h3>
+                <p>Professional care for indoor and outdoor plants.</p>
+                <a href="gardener-workers.html" class="book-btn">
+                    Book Service
+                </a>
+            </div>
+
+            <div class="service-card">
+                <div class="icon">🌳</div>
+                <h3>Tree Trimming</h3>
+                <p>Safe and proper trimming of trees and branches.</p>
+                <a href="gardener-workers.html" class="book-btn">
+                    Book Service
+                </a>
+            </div>
+
+            <div class="service-card">
+                <div class="icon">🌸</div>
+                <h3>Flower Planting</h3>
+                <p>Plant beautiful flowers and improve your garden.</p>
+                <a href="gardener-workers.html" class="book-btn">
+                    Book Service
+                </a>
+            </div>
+
+            <div class="service-card">
+                <div class="icon">🍃</div>
+                <h3>Garden Cleaning</h3>
+                <p>Remove leaves, waste and unwanted garden debris.</p>
+                <a href="gardener-workers.html" class="book-btn">
+                    Book Service
+                </a>
+            </div>
+
+            <div class="service-card">
+                <div class="icon">🛠️</div>
+                <h3>Other Gardening Work</h3>
+                <p>Get help with other gardening-related requirements.</p>
+                <a href="gardener-workers.html" class="book-btn">
+                    Book Service
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 QuickServe. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

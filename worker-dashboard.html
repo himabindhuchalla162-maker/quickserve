@@ -1,0 +1,611 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Worker Dashboard - QuickServe</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5faf7;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            color: #16834b;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: #16834b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .hero {
+            background: #16834b;
+            color: white;
+            padding: 45px 7%;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 17px;
+        }
+
+        .container {
+            width: 86%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .profile-card,
+        .dashboard-card,
+        .bookings-section {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .profile-card h2,
+        .bookings-section h2 {
+            color: #16834b;
+            margin-bottom: 18px;
+        }
+
+        .profile-info p {
+            margin: 8px 0;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .dashboard-card {
+            text-align: center;
+        }
+
+        .dashboard-card h3 {
+            font-size: 30px;
+            color: #16834b;
+            margin-bottom: 8px;
+        }
+
+        .booking-card {
+            border: 1px solid #d9e8df;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 18px;
+            background: #fbfffd;
+        }
+
+        .booking-card h3 {
+            color: #16834b;
+            margin-bottom: 12px;
+        }
+
+        .booking-card p {
+            margin: 7px 0;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .accepted {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .buttons {
+            margin-top: 18px;
+        }
+
+        .accept-btn,
+        .reject-btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .accept-btn {
+            background: #16834b;
+            color: white;
+        }
+
+        .reject-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 25px;
+            color: #16834b;
+        }
+
+        @media (max-width: 700px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">QuickServe</div>
+
+        <button class="logout-btn" onclick="logoutWorker()">
+            Logout
+        </button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1 id="welcomeText">Welcome, Worker!</h1>
+        <p>Manage your QuickServe service bookings here.</p>
+    </section>
+
+    <div class="container">
+
+        <!-- PROFILE -->
+        <div class="profile-card">
+            <h2>My Profile</h2>
+
+            <div class="profile-info">
+                <p>
+                    <strong>Name:</strong>
+                    <span id="workerName">Loading...</span>
+                </p>
+
+                <p>
+                    <strong>Service:</strong>
+                    <span id="workerService">Loading...</span>
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    <span id="workerPhone">Loading...</span>
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    <span id="workerLocation">Loading...</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- DASHBOARD CARDS -->
+        <div class="dashboard-grid">
+
+            <div class="dashboard-card">
+                <h3 id="totalBookings">0</h3>
+                <p>Total Bookings</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3 id="pendingBookings">0</h3>
+                <p>Pending</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3 id="acceptedBookings">0</h3>
+                <p>Accepted</p>
+            </div>
+
+        </div>
+
+        <!-- BOOKINGS -->
+        <div class="bookings-section">
+
+            <h2>My Bookings</h2>
+
+            <div id="bookingsContainer">
+                <div class="loading">
+                    Loading bookings...
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        // ================================
+        // CHECK WORKER LOGIN
+        // ================================
+
+        const savedWorker =
+            localStorage.getItem("quickserveWorker");
+
+        const loggedIn =
+            localStorage.getItem("quickserveLoggedIn");
+
+        const accountType =
+            localStorage.getItem("quickserveAccountType");
+
+        if (
+            !savedWorker ||
+            loggedIn !== "true" ||
+            accountType !== "worker"
+        ) {
+            alert("Please login as a worker first.");
+            window.location.href = "login.html";
+        }
+
+
+        // ================================
+        // LOAD WORKER PROFILE
+        // ================================
+
+        const worker =
+            JSON.parse(savedWorker);
+
+        document.getElementById("welcomeText").textContent =
+            "Welcome, " + (worker.name || "Worker") + "!";
+
+        document.getElementById("workerName").textContent =
+            worker.name || "Not available";
+
+        document.getElementById("workerService").textContent =
+            worker.service || "Not available";
+
+        document.getElementById("workerPhone").textContent =
+            worker.phone || "Not available";
+
+        document.getElementById("workerLocation").textContent =
+            worker.location || "Not available";
+
+
+        // ================================
+        // LOAD BOOKINGS FROM BACKEND
+        // ================================
+
+        async function loadBookings() {
+
+            const container =
+                document.getElementById("bookingsContainer");
+
+            container.innerHTML =
+                '<div class="loading">Loading bookings...</div>';
+
+            try {
+
+                const response =
+                    await fetch("/api/bookings");
+
+                const result =
+                    await response.json();
+
+                if (!result.success) {
+
+                    container.innerHTML =
+                        '<div class="empty">Unable to load bookings.</div>';
+
+                    return;
+                }
+
+                const allBookings =
+                    result.bookings || [];
+
+                const myWorkerName =
+                    (worker.name || "")
+                    .trim()
+                    .toLowerCase();
+
+                const myBookings =
+                    allBookings.filter(function (booking) {
+
+                        const bookingWorkerName =
+                            (booking.worker || "")
+                            .trim()
+                            .toLowerCase();
+
+                        return bookingWorkerName === myWorkerName;
+                    });
+
+                showBookings(myBookings);
+
+            } catch (error) {
+
+                console.error(error);
+
+                container.innerHTML =
+                    '<div class="empty">Backend connection failed.</div>';
+            }
+        }
+
+
+        // ================================
+        // SHOW BOOKINGS
+        // ================================
+
+        function showBookings(bookings) {
+
+            const container =
+                document.getElementById("bookingsContainer");
+
+            document.getElementById("totalBookings").textContent =
+                bookings.length;
+
+            const pending =
+                bookings.filter(function (booking) {
+                    return booking.status === "Pending";
+                }).length;
+
+            const accepted =
+                bookings.filter(function (booking) {
+                    return booking.status === "Accepted";
+                }).length;
+
+            document.getElementById("pendingBookings").textContent =
+                pending;
+
+            document.getElementById("acceptedBookings").textContent =
+                accepted;
+
+
+            if (bookings.length === 0) {
+
+                container.innerHTML =
+                    '<div class="empty">No bookings available yet.</div>';
+
+                return;
+            }
+
+
+            container.innerHTML = "";
+
+
+            bookings.forEach(function (booking) {
+
+                const card =
+                    document.createElement("div");
+
+                card.className = "booking-card";
+
+
+                let statusClass = "pending";
+
+                if (booking.status === "Accepted") {
+                    statusClass = "accepted";
+                }
+
+                if (booking.status === "Rejected") {
+                    statusClass = "rejected";
+                }
+
+
+                let buttons = "";
+
+                if (booking.status === "Pending") {
+
+                    buttons = `
+                        <div class="buttons">
+
+                            <button
+                                class="accept-btn"
+                                onclick="updateBookingStatus(${booking.id}, 'Accepted')">
+                                Accept
+                            </button>
+
+                            <button
+                                class="reject-btn"
+                                onclick="updateBookingStatus(${booking.id}, 'Rejected')">
+                                Reject
+                            </button>
+
+                        </div>
+                    `;
+                }
+
+
+                card.innerHTML = `
+
+                    <h3>
+                        ${booking.service || "Service Booking"}
+                    </h3>
+
+                    <p>
+                        <strong>Customer:</strong>
+                        ${booking.name || ""}
+                    </p>
+
+                    <p>
+                        <strong>Phone:</strong>
+                        ${booking.phone || ""}
+                    </p>
+
+                    <p>
+                        <strong>Address:</strong>
+                        ${booking.address || ""}
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        ${booking.date || ""}
+                    </p>
+
+                    <p>
+                        <strong>Time:</strong>
+                        ${booking.time || ""}
+                    </p>
+
+                    <p>
+                        <strong>Details:</strong>
+                        ${booking.details || "No additional details"}
+                    </p>
+
+                    <span class="status ${statusClass}">
+                        ${booking.status || "Pending"}
+                    </span>
+
+                    ${buttons}
+
+                `;
+
+                container.appendChild(card);
+
+            });
+        }
+
+
+        // ================================
+        // ACCEPT / REJECT BOOKING
+        // ================================
+
+        async function updateBookingStatus(
+            bookingId,
+            newStatus
+        ) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/bookings/" + bookingId,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                status: newStatus
+                            })
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!result.success) {
+
+                    alert(
+                        "Unable to update booking."
+                    );
+
+                    return;
+                }
+
+
+                alert(
+                    "Booking " +
+                    newStatus.toLowerCase() +
+                    " successfully!"
+                );
+
+
+                loadBookings();
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Backend connection failed."
+                );
+            }
+        }
+
+
+        // ================================
+        // LOGOUT
+        // ================================
+
+        function logoutWorker() {
+
+            localStorage.removeItem(
+                "quickserveLoggedIn"
+            );
+
+            localStorage.removeItem(
+                "quickserveLoggedInUser"
+            );
+
+            localStorage.removeItem(
+                "quickserveAccountType"
+            );
+
+            window.location.href =
+                "index.html";
+        }
+
+
+        // ================================
+        // START
+        // ================================
+
+        loadBookings();
+
+    </script>
+
+</body>
+</html>

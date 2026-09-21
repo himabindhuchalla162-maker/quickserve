@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Worker - QuickServe</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+        }
+
+        header {
+            background: #0f9d58;
+            color: white;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 35px;
+        }
+
+        .workers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .worker-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .worker-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .worker-card h3 {
+            margin: 10px 0;
+            color: #222;
+        }
+
+        .worker-card p {
+            color: #666;
+            margin: 8px 0;
+        }
+
+        .choose-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: #0f9d58;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .choose-btn:hover {
+            background: #0b7d46;
+        }
+
+        @media (max-width: 800px) {
+            .workers {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 18px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>QuickServe</h2>
+        <a id="backLink" href="index.html">← Back</a>
+    </header>
+
+    <div class="container">
+
+        <h1 id="pageTitle">Find an Electrician</h1>
+
+        <p class="subtitle" id="pageSubtitle">
+            Choose a trusted electrician near you
+        </p>
+
+        <div class="workers">
+
+            <div class="worker-card">
+                <div class="worker-icon">👨‍🔧</div>
+                <h3>Rahul Kumar</h3>
+                <p id="service1">⚡ Electrician</p>
+                <p>⭐ 4.8 Rating</p>
+                <p>Experience: 5 Years</p>
+                <p>📍 Available Nearby</p>
+
+                <a href="booking.html?worker=Rahul%20Kumar" class="choose-btn">
+                    Choose Worker
+                </a>
+            </div>
+
+            <div class="worker-card">
+                <div class="worker-icon">👨‍🔧</div>
+                <h3>Arjun Reddy</h3>
+                <p id="service2">⚡ Electrician</p>
+                <p>⭐ 4.7 Rating</p>
+                <p>Experience: 4 Years</p>
+                <p>📍 Available Nearby</p>
+
+                <a href="booking.html?worker=Arjun%20Reddy" class="choose-btn">
+                    Choose Worker
+                </a>
+            </div>
+
+            <div class="worker-card">
+                <div class="worker-icon">👨‍🔧</div>
+                <h3>Suresh Kumar</h3>
+                <p id="service3">⚡ Electrician</p>
+                <p>⭐ 4.9 Rating</p>
+                <p>Experience: 6 Years</p>
+                <p>📍 Available Nearby</p>
+
+                <a href="booking.html?worker=Suresh%20Kumar" class="choose-btn">
+                    Choose Worker
+                </a>
+            </div>
+
+            <div class="worker-card">
+                <div class="worker-icon">👨‍🔧</div>
+                <h3>Vijay Rao</h3>
+                <p id="service4">⚡ Electrician</p>
+                <p>⭐ 4.6 Rating</p>
+                <p>Experience: 3 Years</p>
+                <p>📍 Available Nearby</p>
+
+                <a href="booking.html?worker=Vijay%20Rao" class="choose-btn">
+                    Choose Worker
+                </a>
+            </div>
+
+            <div class="worker-card">
+                <div class="worker-icon">👨‍🔧</div>
+                <h3>Manoj Singh</h3>
+                <p id="service5">⚡ Electrician</p>
+                <p>⭐ 4.8 Rating</p>
+                <p>Experience: 5 Years</p>
+                <p>📍 Available Nearby</p>
+
+                <a href="booking.html?worker=Manoj%20Singh" class="choose-btn">
+                    Choose Worker
+                </a>
+            </div>
+
+            <div class="worker-card">
+                <div class="worker-icon">👨‍🔧</div>
+                <h3>Kiran Kumar</h3>
+                <p id="service6">⚡ Electrician</p>
+                <p>⭐ 4.7 Rating</p>
+                <p>Experience: 4 Years</p>
+                <p>📍 Available Nearby</p>
+
+                <a href="booking.html?worker=Kiran%20Kumar" class="choose-btn">
+                    Choose Worker
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const page = document.referrer;
+
+        let service = "Electrician";
+        let icon = "⚡";
+        let backPage = "electrician.html";
+
+        if (page.includes("plumber.html")) {
+            service = "Plumber";
+            icon = "🔧";
+            backPage = "plumber.html";
+        }
+
+        else if (page.includes("carpenter.html")) {
+            service = "Carpenter";
+            icon = "🪚";
+            backPage = "carpenter.html";
+        }
+
+        else if (page.includes("painter.html")) {
+            service = "Painter";
+            icon = "🎨";
+            backPage = "painter.html";
+        }
+
+        else if (page.includes("cleaner.html")) {
+            service = "Cleaner";
+            icon = "🧹";
+            backPage = "cleaner.html";
+        }
+
+        else if (page.includes("gardener.html")) {
+            service = "Gardener";
+            icon = "🌿";
+            backPage = "gardener.html";
+        }
+
+        document.getElementById("pageTitle").textContent =
+            "Find a " + service;
+
+        document.getElementById("pageSubtitle").textContent =
+            "Choose a trusted " + service.toLowerCase() + " near you";
+
+        document.getElementById("backLink").href = backPage;
+
+        for (let i = 1; i <= 6; i++) {
+            document.getElementById("service" + i).textContent =
+                icon + " " + service;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,563 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickServe - Available Painters</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7f6;
+      color: #1f2937;
+    }
+
+    /* NAVBAR */
+    nav {
+      height: 72px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7%;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      color: #16a34a;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: #374151;
+      font-weight: 600;
+    }
+
+    .nav-link:hover {
+      color: #16a34a;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: white;
+      text-align: center;
+      padding: 65px 20px;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      opacity: 0.95;
+    }
+
+    /* MAIN */
+    .container {
+      width: 86%;
+      max-width: 1200px;
+      margin: 50px auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .section-title h2 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .section-title p {
+      color: #6b7280;
+    }
+
+    /* GRID */
+    .workers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    /* CARD */
+    .worker-card {
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      transition: 0.3s;
+    }
+
+    .worker-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 14px 35px rgba(0,0,0,0.13);
+    }
+
+    .worker-image {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .worker-info {
+      padding: 22px;
+    }
+
+    .worker-info h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    /* BADGES */
+    .badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .available {
+      background: #dcfce7;
+      color: #15803d;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .verified {
+      background: #ecfdf5;
+      color: #047857;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .rating {
+      color: #f59e0b;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    /* DETAILS */
+    .details {
+      border-top: 1px solid #e5e7eb;
+      padding-top: 14px;
+      margin-bottom: 18px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .detail-row strong {
+      color: #374151;
+    }
+
+    /* BUTTON */
+    .book-btn {
+      width: 100%;
+      border: none;
+      background: #16a34a;
+      color: white;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .book-btn:hover {
+      background: #15803d;
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 70px;
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 28px 20px;
+    }
+
+    footer p {
+      color: #9ca3af;
+      margin-top: 6px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .workers-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero h1 {
+        font-size: 34px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        padding: 0 5%;
+      }
+
+      .nav-right {
+        gap: 12px;
+      }
+
+      .workers-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 50px 15px;
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      .container {
+        width: 92%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">QuickServe</div>
+
+    <div class="nav-right">
+      <a href="painter.html" class="nav-link">← Back to Painter</a>
+      <a href="index.html" class="nav-link">Home</a>
+    </div>
+  </nav>
+
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Available Painters</h1>
+    <p>Choose a professional painter and book your service</p>
+  </section>
+
+
+  <!-- WORKERS -->
+  <main class="container">
+
+    <div class="section-title">
+      <h2>Professional Painters</h2>
+      <p>Skilled painters ready for your painting and renovation needs</p>
+    </div>
+
+
+    <div class="workers-grid">
+
+      <!-- WORKER 1 -->
+      <div class="worker-card">
+
+        <img
+          class="worker-image"
+          src="https://images.pexels.com/photos/5691479/pexels-photo-5691479.jpeg?auto=compress&cs=tinysrgb&w=900"
+          alt="House painter working on ladder">
+
+        <div class="worker-info">
+          <h3>Ramesh Kumar</h3>
+
+          <div class="badges">
+            <span class="available">Available</span>
+            <span class="verified">✓ Verified Painter</span>
+          </div>
+
+          <div class="rating">★★★★★ 4.9</div>
+
+          <div class="details">
+            <div class="detail-row">
+              <span>Experience</span>
+              <strong>8 Years</strong>
+            </div>
+
+            <div class="detail-row">
+              <span>Jobs Completed</span>
+              <strong>320+</strong>
+            </div>
+
+            <div class="detail-row">
+              <span>Location</span>
+              <strong>Hyderabad</strong>
+            </div>
+          </div>
+
+          <button class="book-btn" onclick="bookWorker('Ramesh Kumar')">
+            Book Service
+          </button>
+        </div>
+      </div>
+
+
+      <!-- WORKER 2 -->
+      <div class="worker-card">
+
+        <img
+          class="worker-image"
+          src="https://images.pexels.com/photos/6474471/pexels-photo-6474471.jpeg?auto=compress&cs=tinysrgb&w=900"
+          alt="Painter using roller on interior wall">
+
+        <div class="worker-info">
+          <h3>Arun Reddy</h3>
+
+          <div class="badges">
+            <span class="available">Available</span>
+            <span class="verified">✓ Verified Painter</span>
+          </div>
+
+          <div class="rating">★★★★★ 4.8</div>
+
+          <div class="details">
+            <div class="detail-row">
+              <span>Experience</span>
+              <strong>7 Years</strong>
+            </div>
+
+            <div class="detail-row">
+              <span>Jobs Completed</span>
+              <strong>285+</strong>
+            </div>
+
+            <div class="detail-row">
+              <span>Location</span>
+              <strong>Secunderabad</strong>
+            </div>
+          </div>
+
+          <button class="book-btn" onclick="bookWorker('Arun Reddy')">
+            Book Service
+          </button>
+        </div>
+      </div>
+
+
+      <!-- WORKER 3 -->
+      <div class="worker-card">
+
+        <img
+          class="worker-image"
+          src="https://images.pexels.com/photos/5493655/pexels-photo-5493655.jpeg?auto=compress&cs=tinysrgb&w=900"
+          alt="Painter wearing uniform and painting wall">
+
+        <div class="worker-info">
+          <h3>Suresh Kumar</h3>
+
+          <div class="badges">
+            <span class="available">Available</span>
+            <span class="verified">✓ Verified Painter</span>
+          </div>
+
+          <div class="rating">★★★★★ 4.9</div>
+
+          <div class="details">
+            <div class="detail-row">
+              <span>Experience</span>
+              <strong>10 Years</strong>
+            </div>
+
+            <div class="detail-row">
+              <span>Jobs Completed</span>
+              <strong>410+</strong>
+            </div>
+
+            <div class="detail-row">
+              <span>Location</span>
+              <strong>Kukatpally</strong>
+            </div>
+          </div>
+
+          <button class="book-btn" onclick="bookWorker('Suresh Kumar')">
+            Book Service
+          </button>
+        </div>
+      </div>
+
+
+      <!-- WORKER 4 -->
+      <div class="worker-card">
+
+        <img
+          class="worker-image"
+          src="https://images.pexels.com/photos/5691610/pexels-photo-5691610.jpeg?auto=compress&cs=tinysrgb&w=900"
+          alt="Painter working on ceiling with roller">
+
+        <div class="worker-info">
+          <h3>Vijay Rao</h3>
+
+          <div class="badges">
+            <span class="available">Available</span>
+            <span class="verified">✓ Verified Painter</span>
+          </div>
+
+          <div class="rating">★★★★★ 4.8</div>
+
+          <div class="details">
+            <div class="detail-row">
+              <span>Experience</span>
+              <strong>6 Years</strong>
+            </div>
+
+            <div class="detail-row">
+              <span>Jobs Completed</span>
+              <strong>240+</strong>
+            </div>
+
+            <div class="detail-row">
+              <span>Location</span>
+              <strong>Madhapur</strong>
+            </div>
+          </div>
+
+          <button class="book-btn" onclick="bookWorker('Vijay Rao')">
+            Book Service
+          </button>
+        </div>
+      </div>
+
+
+      <!-- WORKER 5 -->
+      <div class="worker-card">
+
+        <img
+          class="worker-image"
+          src="https://images.pexels.com/photos/1917849/pexels-photo-1917849.jpeg?auto=compress&cs=tinysrgb&w=900"
+          alt="Painter painting exterior house wall">
+
+        <div class="worker-info">
+          <h3>Manoj Singh</h3>
+
+          <div class="badges">
+            <span class="available">Available</span>
+            <span class="verified">✓ Verified Painter</span>
+          </div>
+
+          <div class="rating">★★★★★ 4.7</div>
+
+          <div class="details">
+            <div class="detail-row">
+              <span>Experience</span>
+              <strong>9 Years</strong>
+            </div>
+
+            <div class="detail-row">
+              <span>Jobs Completed</span>
+              <strong>350+</strong>
+            </div>
+
+            <div class="detail-row">
+              <span>Location</span>
+              <strong>Gachibowli</strong>
+            </div>
+          </div>
+
+          <button class="book-btn" onclick="bookWorker('Manoj Singh')">
+            Book Service
+          </button>
+        </div>
+      </div>
+
+
+      <!-- WORKER 6 -->
+      <div class="worker-card">
+
+        <img
+          class="worker-image"
+          src="https://images.pexels.com/photos/13718311/pexels-photo-13718311.jpeg?auto=compress&cs=tinysrgb&w=900"
+          alt="Worker painting building exterior in India">
+
+        <div class="worker-info">
+          <h3>Kiran Kumar</h3>
+
+          <div class="badges">
+            <span class="available">Available</span>
+            <span class="verified">✓ Verified Painter</span>
+          </div>
+
+          <div class="rating">★★★★★ 4.9</div>
+
+          <div class="details">
+            <div class="detail-row">
+              <span>Experience</span>
+              <strong>12 Years</strong>
+            </div>
+
+            <div class="detail-row">
+              <span>Jobs Completed</span>
+              <strong>500+</strong>
+            </div>
+
+            <div class="detail-row">
+              <span>Location</span>
+              <strong>Manikonda</strong>
+            </div>
+          </div>
+
+          <button class="book-btn" onclick="bookWorker('Kiran Kumar')">
+            Book Service
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <h3>QuickServe</h3>
+    <p>Reliable local services at your fingertips.</p>
+    <p>© 2026 QuickServe. All rights reserved.</p>
+  </footer>
+
+
+  <!-- BOOKING SCRIPT -->
+  <script>
+    function bookWorker(workerName) {
+      const url =
+        "booking.html?worker=" +
+        encodeURIComponent(workerName) +
+        "&service=Painter";
+
+      window.location.href = url;
+    }
+  </script>
+
+</body>
+</html>
