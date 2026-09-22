@@ -5,7 +5,14 @@ const mongoose = require("mongoose");
 
 dotenv.config();
 
-console.log("MONGODB_URI EXISTS:", !!process.env.MONGODB_URI);
+console.log("=================================");
+console.log("QuickServe Server Starting...");
+console.log("=================================");
+
+console.log(
+    "MONGODB_URI EXISTS:",
+    !!process.env.MONGODB_URI
+);
 
 console.log(
     "MONGODB HOST:",
@@ -17,12 +24,15 @@ console.log(
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ===============================
-// MONGODB CONNECTION
-// ===============================
+/* ================================
+   MONGODB CONNECTION
+================================ */
 
 mongoose
-    .connect(process.env.MONGODB_URI)
+    .connect(process.env.MONGODB_URI, {
+        serverSelectionTimeoutMS: 15000,
+        connectTimeoutMS: 15000
+    })
     .then(() => {
         console.log("=================================");
         console.log("MongoDB Connected Successfully!");
@@ -30,13 +40,21 @@ mongoose
         console.log("=================================");
     })
     .catch((error) => {
-        console.error("MONGODB CONNECTION ERROR:");
-        console.error(error.message);
+        console.error("=================================");
+        console.error("MONGODB CONNECTION ERROR");
+        console.error("=================================");
+
+        console.error("ERROR NAME:", error.name);
+        console.error("ERROR MESSAGE:", error.message);
+        console.error("FULL ERROR:");
+        console.error(error);
+
+        console.error("=================================");
     });
 
-// ===============================
-// BOOKING SCHEMA
-// ===============================
+/* ================================
+   BOOKING SCHEMA
+================================ */
 
 const bookingSchema = new mongoose.Schema(
     {
@@ -92,17 +110,21 @@ const bookingSchema = new mongoose.Schema(
 
 const Booking = mongoose.model("Booking", bookingSchema);
 
-// ===============================
-// MIDDLEWARE
-// ===============================
+/* ================================
+   MIDDLEWARE
+================================ */
 
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "..")));
+app.use(
+    express.static(
+        path.join(__dirname, "..")
+    )
+);
 
-// ===============================
-// HOME PAGE
-// ===============================
+/* ================================
+   HOME PAGE
+================================ */
 
 app.get("/", function (req, res) {
     res.sendFile(
@@ -110,9 +132,9 @@ app.get("/", function (req, res) {
     );
 });
 
-// ===============================
-// TEST API
-// ===============================
+/* ================================
+   BACKEND TEST
+================================ */
 
 app.get("/api/test", function (req, res) {
     res.json({
@@ -121,9 +143,9 @@ app.get("/api/test", function (req, res) {
     });
 });
 
-// ===============================
-// CREATE BOOKING
-// ===============================
+/* ================================
+   CREATE BOOKING
+================================ */
 
 app.post("/api/bookings", async function (req, res) {
     try {
@@ -141,7 +163,10 @@ app.post("/api/bookings", async function (req, res) {
 
         const savedBooking = await booking.save();
 
+        console.log("=================================");
         console.log("NEW BOOKING SAVED TO MONGODB");
+        console.log("Booking ID:", savedBooking._id);
+        console.log("=================================");
 
         res.json({
             success: true,
@@ -151,7 +176,7 @@ app.post("/api/bookings", async function (req, res) {
 
     } catch (error) {
         console.error("BOOKING ERROR:");
-        console.error(error.message);
+        console.error(error);
 
         res.status(500).json({
             success: false,
@@ -161,14 +186,16 @@ app.post("/api/bookings", async function (req, res) {
     }
 });
 
-// ===============================
-// GET ALL BOOKINGS
-// ===============================
+/* ================================
+   GET ALL BOOKINGS
+================================ */
 
 app.get("/api/bookings", async function (req, res) {
     try {
         const bookings = await Booking.find()
-            .sort({ createdAt: -1 });
+            .sort({
+                createdAt: -1
+            });
 
         res.json({
             success: true,
@@ -177,7 +204,7 @@ app.get("/api/bookings", async function (req, res) {
 
     } catch (error) {
         console.error("FETCH BOOKINGS ERROR:");
-        console.error(error.message);
+        console.error(error);
 
         res.status(500).json({
             success: false,
@@ -187,9 +214,9 @@ app.get("/api/bookings", async function (req, res) {
     }
 });
 
-// ===============================
-// UPDATE BOOKING STATUS
-// ===============================
+/* ================================
+   UPDATE BOOKING STATUS
+================================ */
 
 app.put("/api/bookings/:id", async function (req, res) {
     try {
@@ -214,7 +241,11 @@ app.put("/api/bookings/:id", async function (req, res) {
             });
         }
 
+        console.log("=================================");
         console.log("BOOKING STATUS UPDATED");
+        console.log("Booking ID:", bookingId);
+        console.log("New Status:", newStatus);
+        console.log("=================================");
 
         res.json({
             success: true,
@@ -224,7 +255,7 @@ app.put("/api/bookings/:id", async function (req, res) {
 
     } catch (error) {
         console.error("UPDATE BOOKING ERROR:");
-        console.error(error.message);
+        console.error(error);
 
         res.status(500).json({
             success: false,
@@ -234,9 +265,9 @@ app.put("/api/bookings/:id", async function (req, res) {
     }
 });
 
-// ===============================
-// START SERVER
-// ===============================
+/* ================================
+   START SERVER
+================================ */
 
 app.listen(PORT, function () {
     console.log("=================================");
