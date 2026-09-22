@@ -137,6 +137,11 @@
             background: #15803d;
         }
 
+        .book-btn:disabled {
+            background: #86efac;
+            cursor: not-allowed;
+        }
+
         .back-btn {
             display: block;
             text-align: center;
@@ -156,6 +161,7 @@
         }
 
         @media (max-width: 600px) {
+
             nav {
                 padding: 15px 5%;
             }
@@ -178,21 +184,29 @@
 <body>
 
     <!-- Navbar -->
+
     <nav>
-        <div class="logo">QuickServe</div>
+
+        <div class="logo">
+            QuickServe
+        </div>
 
         <a href="index.html" class="home-btn">
             Home
         </a>
+
     </nav>
 
 
     <!-- Booking Section -->
+
     <div class="container">
 
         <div class="booking-card">
 
-            <h1>Book Your Service</h1>
+            <h1>
+                Book Your Service
+            </h1>
 
             <p class="subtitle">
                 Enter your details to book the service
@@ -200,25 +214,34 @@
 
 
             <!-- Worker Information -->
+
             <div class="worker-info">
 
                 <p>
                     <strong>Worker:</strong>
-                    <span id="workerName">Loading...</span>
+                    <span id="workerName">
+                        Loading...
+                    </span>
                 </p>
 
                 <p>
                     <strong>Service:</strong>
-                    <span id="serviceName">Loading...</span>
+                    <span id="serviceName">
+                        Loading...
+                    </span>
                 </p>
 
             </div>
 
 
             <!-- Booking Form -->
+
             <form onsubmit="saveBooking(); return false;">
 
+                <!-- Name -->
+
                 <div class="form-group">
+
                     <label for="name">
                         Your Name *
                     </label>
@@ -229,10 +252,14 @@
                         placeholder="Enter your full name"
                         required
                     >
+
                 </div>
 
 
+                <!-- Phone -->
+
                 <div class="form-group">
+
                     <label for="phone">
                         Phone Number *
                     </label>
@@ -243,10 +270,14 @@
                         placeholder="Enter your phone number"
                         required
                     >
+
                 </div>
 
 
+                <!-- Address -->
+
                 <div class="form-group">
+
                     <label for="address">
                         Address *
                     </label>
@@ -256,10 +287,14 @@
                         placeholder="Enter your complete address"
                         required
                     ></textarea>
+
                 </div>
 
 
+                <!-- Date -->
+
                 <div class="form-group">
+
                     <label for="date">
                         Service Date *
                     </label>
@@ -269,10 +304,14 @@
                         id="date"
                         required
                     >
+
                 </div>
 
 
+                <!-- Time -->
+
                 <div class="form-group">
+
                     <label for="time">
                         Preferred Time *
                     </label>
@@ -304,10 +343,14 @@
                         </option>
 
                     </select>
+
                 </div>
 
 
+                <!-- Details -->
+
                 <div class="form-group">
+
                     <label for="details">
                         Service Details
                     </label>
@@ -316,12 +359,16 @@
                         id="details"
                         placeholder="Describe what work you need..."
                     ></textarea>
+
                 </div>
 
+
+                <!-- Submit -->
 
                 <button
                     type="submit"
                     class="book-btn"
+                    id="bookButton"
                 >
                     Confirm Booking
                 </button>
@@ -329,7 +376,12 @@
             </form>
 
 
-            <a href="index.html" class="back-btn">
+            <!-- Back -->
+
+            <a
+                href="index.html"
+                class="back-btn"
+            >
                 ← Back to Home
             </a>
 
@@ -339,65 +391,100 @@
 
 
     <!-- Footer -->
+
     <footer>
-        <p>© 2026 QuickServe. All rights reserved.</p>
+
+        <p>
+            © 2026 QuickServe. All rights reserved.
+        </p>
+
     </footer>
 
 
     <!-- JavaScript -->
+
     <script>
 
         /*
-           Get worker and service from URL
+            Get worker and service from URL
 
-           Example:
-           booking.html?worker=Ramesh%20Kumar&service=Electrician
+            Example:
+
+            booking.html?worker=Ramesh%20Kumar&service=Electrician
         */
 
         const params = new URLSearchParams(
             window.location.search
         );
 
+
         const worker =
             params.get("worker") || "Rahul Kumar";
+
 
         const service =
             params.get("service") || "Electrician";
 
 
-        /* Show worker and service */
+        /*
+            Show worker and service
+        */
 
-        document.getElementById("workerName").textContent =
-            worker;
-
-        document.getElementById("serviceName").textContent =
-            service;
+        document.getElementById(
+            "workerName"
+        ).textContent = worker;
 
 
-        /* Save Booking */
+        document.getElementById(
+            "serviceName"
+        ).textContent = service;
+
+
+        /*
+            Save Booking
+        */
 
         async function saveBooking() {
 
             const name =
-                document.getElementById("name").value.trim();
+                document.getElementById(
+                    "name"
+                ).value.trim();
+
 
             const phone =
-                document.getElementById("phone").value.trim();
+                document.getElementById(
+                    "phone"
+                ).value.trim();
+
 
             const address =
-                document.getElementById("address").value.trim();
+                document.getElementById(
+                    "address"
+                ).value.trim();
+
 
             const date =
-                document.getElementById("date").value;
+                document.getElementById(
+                    "date"
+                ).value;
+
 
             const time =
-                document.getElementById("time").value;
+                document.getElementById(
+                    "time"
+                ).value;
+
 
             const details =
-                document.getElementById("details").value.trim();
+                document.getElementById(
+                    "details"
+                ).value.trim();
 
 
-            /* Required fields check */
+            /*
+                Required fields check
+            */
 
             if (
                 !name ||
@@ -416,8 +503,7 @@
 
 
             /*
-               Create complete booking object
-               for backend and Worker Dashboard
+                Create booking object
             */
 
             const booking = {
@@ -444,46 +530,112 @@
 
 
             /*
-               Send booking to backend
+                Disable button while submitting
+            */
+
+            const bookButton =
+                document.getElementById(
+                    "bookButton"
+                );
+
+
+            bookButton.disabled = true;
+
+            bookButton.textContent =
+                "Submitting...";
+
+
+            /*
+                Send booking to Render backend
+
+                IMPORTANT:
+                Do NOT use localhost here.
+
+                /api/bookings automatically points to:
+
+                https://quickserve-apeg.onrender.com/api/bookings
             */
 
             try {
 
-                const response = await fetch(
-                    "http://localhost:3000/api/bookings",
-                    {
-                        method: "POST",
+                const response =
+                    await fetch(
+                        "/api/bookings",
+                        {
+                            method: "POST",
 
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
 
-                        body: JSON.stringify(booking)
-                    }
-                );
+                            body:
+                                JSON.stringify(
+                                    booking
+                                )
+                        }
+                    );
 
+
+                /*
+                    Convert backend response
+                    to JSON
+                */
 
                 const result =
                     await response.json();
 
 
                 /*
-                   Check backend response
+                    Check HTTP error
                 */
 
-                if (!result.success) {
+                if (!response.ok) {
+
+                    console.error(
+                        "Server Error:",
+                        result
+                    );
 
                     alert(
+                        result.message ||
                         "Booking failed. Please try again."
                     );
+
+                    bookButton.disabled =
+                        false;
+
+                    bookButton.textContent =
+                        "Confirm Booking";
 
                     return;
                 }
 
 
                 /*
-                   Save latest booking details
-                   for confirmation.html
+                    Check backend success
+                */
+
+                if (!result.success) {
+
+                    alert(
+                        result.message ||
+                        "Booking failed. Please try again."
+                    );
+
+                    bookButton.disabled =
+                        false;
+
+                    bookButton.textContent =
+                        "Confirm Booking";
+
+                    return;
+                }
+
+
+                /*
+                    Save booking details
+                    for confirmation page
                 */
 
                 localStorage.setItem(
@@ -491,35 +643,42 @@
                     worker
                 );
 
+
                 localStorage.setItem(
                     "bookingService",
                     service
                 );
+
 
                 localStorage.setItem(
                     "bookingName",
                     name
                 );
 
+
                 localStorage.setItem(
                     "bookingPhone",
                     phone
                 );
+
 
                 localStorage.setItem(
                     "bookingAddress",
                     address
                 );
 
+
                 localStorage.setItem(
                     "bookingDate",
                     date
                 );
 
+
                 localStorage.setItem(
                     "bookingTime",
                     time
                 );
+
 
                 localStorage.setItem(
                     "bookingDetails",
@@ -528,7 +687,7 @@
 
 
                 /*
-                   Get existing bookings
+                    Save local copy
                 */
 
                 const bookings =
@@ -539,26 +698,21 @@
                     ) || [];
 
 
-                /*
-                   Add new booking
-                */
+                bookings.push(
+                    booking
+                );
 
-                bookings.push(booking);
-
-
-                /*
-                   Save all bookings
-                   for Worker Dashboard
-                */
 
                 localStorage.setItem(
                     "quickserveBookings",
-                    JSON.stringify(bookings)
+                    JSON.stringify(
+                        bookings
+                    )
                 );
 
 
                 /*
-                   Show success message
+                    Success message
                 */
 
                 alert(
@@ -567,7 +721,7 @@
 
 
                 /*
-                   Go to confirmation page
+                    Go to confirmation page
                 */
 
                 window.location.href =
@@ -579,13 +733,22 @@
             catch (error) {
 
                 console.error(
-                    "Backend connection error:",
+                    "Booking request error:",
                     error
                 );
 
+
                 alert(
-                    "Backend connection failed. Please make sure the QuickServe server is running."
+                    "Unable to connect to QuickServe server. Please try again."
                 );
+
+
+                bookButton.disabled =
+                    false;
+
+
+                bookButton.textContent =
+                    "Confirm Booking";
 
             }
 
