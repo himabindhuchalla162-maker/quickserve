@@ -5,6 +5,15 @@ const mongoose = require("mongoose");
 
 dotenv.config();
 
+console.log("MONGODB_URI EXISTS:", !!process.env.MONGODB_URI);
+
+console.log(
+    "MONGODB HOST:",
+    process.env.MONGODB_URI
+        ? process.env.MONGODB_URI.split("@")[1]?.split("/")[0]
+        : "NOT SET"
+);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -23,7 +32,6 @@ mongoose
     .catch((error) => {
         console.error("MONGODB CONNECTION ERROR:");
         console.error(error.message);
-        process.exit(1);
     });
 
 // ===============================
@@ -85,7 +93,7 @@ const bookingSchema = new mongoose.Schema(
 const Booking = mongoose.model("Booking", bookingSchema);
 
 // ===============================
-// EXPRESS
+// MIDDLEWARE
 // ===============================
 
 app.use(express.json());
@@ -93,24 +101,24 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..")));
 
 // ===============================
-// HOME
+// HOME PAGE
 // ===============================
 
 app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "index.html"));
+    res.sendFile(
+        path.join(__dirname, "..", "index.html")
+    );
 });
 
 // ===============================
-// DATABASE TEST
+// TEST API
 // ===============================
 
 app.get("/api/test", function (req, res) {
-
     res.json({
         success: true,
-        message: "QuickServe + MongoDB is working!"
+        message: "QuickServe Backend is working!"
     });
-
 });
 
 // ===============================
@@ -118,9 +126,7 @@ app.get("/api/test", function (req, res) {
 // ===============================
 
 app.post("/api/bookings", async function (req, res) {
-
     try {
-
         const booking = new Booking({
             worker: req.body.worker || "",
             service: req.body.service || "",
@@ -135,15 +141,7 @@ app.post("/api/bookings", async function (req, res) {
 
         const savedBooking = await booking.save();
 
-        console.log("");
-        console.log("=================================");
         console.log("NEW BOOKING SAVED TO MONGODB");
-        console.log("Booking ID:", savedBooking._id);
-        console.log("Worker:", savedBooking.worker);
-        console.log("Customer:", savedBooking.name);
-        console.log("Status:", savedBooking.status);
-        console.log("=================================");
-        console.log("");
 
         res.json({
             success: true,
@@ -152,17 +150,15 @@ app.post("/api/bookings", async function (req, res) {
         });
 
     } catch (error) {
-
-        console.error("BOOKING ERROR:", error.message);
+        console.error("BOOKING ERROR:");
+        console.error(error.message);
 
         res.status(500).json({
             success: false,
             message: "Could not save booking.",
             error: error.message
         });
-
     }
-
 });
 
 // ===============================
@@ -170,9 +166,7 @@ app.post("/api/bookings", async function (req, res) {
 // ===============================
 
 app.get("/api/bookings", async function (req, res) {
-
     try {
-
         const bookings = await Booking.find()
             .sort({ createdAt: -1 });
 
@@ -182,15 +176,15 @@ app.get("/api/bookings", async function (req, res) {
         });
 
     } catch (error) {
+        console.error("FETCH BOOKINGS ERROR:");
+        console.error(error.message);
 
         res.status(500).json({
             success: false,
             message: "Could not fetch bookings.",
             error: error.message
         });
-
     }
-
 });
 
 // ===============================
@@ -198,38 +192,29 @@ app.get("/api/bookings", async function (req, res) {
 // ===============================
 
 app.put("/api/bookings/:id", async function (req, res) {
-
     try {
-
         const bookingId = req.params.id;
         const newStatus = req.body.status;
 
-        const updatedBooking = await Booking.findByIdAndUpdate(
-            bookingId,
-            {
-                status: newStatus
-            },
-            {
-                new: true
-            }
-        );
+        const updatedBooking =
+            await Booking.findByIdAndUpdate(
+                bookingId,
+                {
+                    status: newStatus
+                },
+                {
+                    new: true
+                }
+            );
 
         if (!updatedBooking) {
-
             return res.status(404).json({
                 success: false,
                 message: "Booking not found."
             });
-
         }
 
-        console.log("");
-        console.log("=================================");
         console.log("BOOKING STATUS UPDATED");
-        console.log("Booking ID:", bookingId);
-        console.log("New Status:", newStatus);
-        console.log("=================================");
-        console.log("");
 
         res.json({
             success: true,
@@ -238,15 +223,15 @@ app.put("/api/bookings/:id", async function (req, res) {
         });
 
     } catch (error) {
+        console.error("UPDATE BOOKING ERROR:");
+        console.error(error.message);
 
         res.status(500).json({
             success: false,
             message: "Could not update booking.",
             error: error.message
         });
-
     }
-
 });
 
 // ===============================
@@ -254,16 +239,22 @@ app.put("/api/bookings/:id", async function (req, res) {
 // ===============================
 
 app.listen(PORT, function () {
-
-    console.log("");
     console.log("=================================");
     console.log("QuickServe Backend Started");
     console.log("=================================");
-    console.log("Website: http://localhost:" + PORT);
-    console.log("Backend Test: http://localhost:" + PORT + "/api/test");
-    console.log("Bookings API: http://localhost:" + PORT + "/api/bookings");
+    console.log(
+        "Website: http://localhost:" + PORT
+    );
+    console.log(
+        "Backend Test: http://localhost:" +
+        PORT +
+        "/api/test"
+    );
+    console.log(
+        "Bookings API: http://localhost:" +
+        PORT +
+        "/api/bookings"
+    );
     console.log("Database: MongoDB Atlas");
     console.log("=================================");
-    console.log("");
-
 });
